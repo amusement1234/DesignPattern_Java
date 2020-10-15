@@ -74,9 +74,9 @@ public class Collections {
             throw new UnsupportedOperationException();
         }
 
-      public boolean remove(Object o) {
-         hrow new UnsupportedOperationException();
-      }
+        public boolean remove(Object o) {
+            throw new UnsupportedOperationException();
+        }
 
         public boolean containsAll(Collection<?> coll) {
             return c.containsAll(coll);
@@ -128,3 +128,5 @@ public class Collections {
         }
     }
 }
+
+// 实际上，最关键的一点是，UnmodifiableCollection 的构造函数接收一个 Collection 类对象，然后对其所有的函数进行了包裹（Wrap）：重新实现（比如 add() 函数）或者简单封装（比如 stream() 函数）。而简单的接口实现或者继承，并不会如此来实现 UnmodifiableCollection 类。所以，从代码实现的角度来说，UnmodifiableCollection 类是典型的装饰器类。
