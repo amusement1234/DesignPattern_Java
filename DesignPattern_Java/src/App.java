@@ -3,18 +3,29 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import text.HandlerA;
+import text.HandlerB;
+import text.HandlerChain;
+
 public class App {
     public static void main(String[] args) throws Exception {
+
         System.out.println("Hello, World!");
+        
         // createDirectory();
         // SaveFile("//01 | 为什么说每个程序员都要尽早地学习并掌握设计模式相关知识？");
 
-        Integer i1 = 56;
-        Integer i2 = 56;
-        Integer i3 = 129;
-        Integer i4 = 129;
-        System.out.println(i1 == i2);
-        System.out.println(i3 == i4);
+        // Integer i1 = 56;
+        // Integer i2 = 56;
+        // Integer i3 = 129;
+        // Integer i4 = 129;
+        // System.out.println(i1 == i2);
+        // System.out.println(i3 == i4);
+
+        HandlerChain chain = new HandlerChain();
+        chain.addHandler(new HandlerA());
+        chain.addHandler(new HandlerB());
+        chain.handle();
 
     }
 
