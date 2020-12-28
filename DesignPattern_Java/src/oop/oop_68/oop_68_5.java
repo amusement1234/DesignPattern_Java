@@ -4,30 +4,68 @@ public abstract class ResourceFile {
     public ResourceFile(String filePath) {
       this.filePath = filePath;
     }
+    abstract public void accept(Visitor vistor);
   }
   
   public class PdfFile extends ResourceFile {
     public PdfFile(String filePath) {
       super(filePath);
     }
+  
+    @Override
+    public void accept(Visitor visitor) {
+      visitor.visit(this);
+    }
+  
     //...
   }
-  //...PPTFile、WordFile代码省略...
-  public class Extractor {
-    public void extract2txt(PPTFile pptFile) {
+  //...PPTFile、WordFile跟PdfFile类似，这里就省略了...
+  
+  public interface Visitor {
+    void visit(PdfFile pdfFile);
+    void visit(PPTFile pdfFile);
+    void visit(WordFile pdfFile);
+  }
+  
+  public class Extractor implements Visitor {
+    @Override
+    public void visit(PPTFile pptFile) {
       //...
       System.out.println("Extract PPT.");
     }
   
-    public void extract2txt(PdfFile pdfFile) {
+    @Override
+    public void visit(PdfFile pdfFile) {
       //...
       System.out.println("Extract PDF.");
     }
   
-    public void extract2txt(WordFile wordFile) {
+    @Override
+    public void visit(WordFile wordFile) {
       //...
       System.out.println("Extract WORD.");
     }
+  }
+  
+  public class Compressor implements Visitor {
+    @Override
+    public void visit(PPTFile pptFile) {
+      //...
+      System.out.println("Compress PPT.");
+    }
+  
+    @Override
+    public void visit(PdfFile pdfFile) {
+      //...
+      System.out.println("Compress PDF.");
+    }
+  
+    @Override
+    public void visit(WordFile wordFile) {
+      //...
+      System.out.println("Compress WORD.");
+    }
+  
   }
   
   public class ToolApplication {
@@ -35,7 +73,12 @@ public abstract class ResourceFile {
       Extractor extractor = new Extractor();
       List<ResourceFile> resourceFiles = listAllResourceFiles(args[0]);
       for (ResourceFile resourceFile : resourceFiles) {
-        extractor.extract2txt(resourceFile);
+        resourceFile.accept(extractor);
+      }
+  
+      Compressor compressor = new Compressor();
+      for(ResourceFile resourceFile : resourceFiles) {
+        resourceFile.accept(compressor);
       }
     }
   
